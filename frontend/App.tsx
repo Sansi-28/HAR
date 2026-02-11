@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Header } from './components/Header';
 import { SensorCharts } from './components/SensorCharts';
 import { ActivityCard } from './components/ActivityCard';
+import { DataCollector } from './components/DataCollector';
 import { useSensors } from './hooks/useSensors';
 import { classifyActivity } from './services/aiService';
 import { ActivityPrediction, AppState } from './types';
@@ -27,6 +28,9 @@ export default function App() {
   
   const lastPredictionRef = useRef<string | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // 1. Check for the secret query param
+  const isCollectionMode = new URLSearchParams(window.location.search).get('mode') === 'collect';
 
   const handleStart = async () => {
     if (!permissionGranted && !isSimulating) {
@@ -71,6 +75,11 @@ export default function App() {
 
   return (
     <div className="min-h-screen pb-20">
+      {/* 2. Conditionally Render the Collector Panel */}
+      {isCollectionMode && (
+        <DataCollector getFeatures={getFeatures} />
+      )}
+
       <Header />
 
       <main className="max-w-lg mx-auto px-6 pt-8 space-y-8">
