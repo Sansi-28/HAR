@@ -77,7 +77,16 @@ export default function App() {
     <div className="min-h-screen pb-20">
       {/* 2. Conditionally Render the Collector Panel */}
       {isCollectionMode && (
-        <DataCollector getFeatures={getFeatures} />
+        <DataCollector 
+          getFeatures={getFeatures} 
+          startRecording={startRecording}
+          stopRecording={stopRecording}
+          requestPermissions={requestPermissions}
+          permissionGranted={permissionGranted}
+          toggleSimulation={toggleSimulation}
+          isSimulating={isSimulating}
+          currentData={currentData}
+        />
       )}
 
       <Header />
